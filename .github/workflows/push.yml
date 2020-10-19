@@ -1,18 +1,30 @@
-on: push
-name: Deploy to GitHub Organization Pages
+name: github pages
+
+on:
+  push:
+    branches:
+      - main  # Set a branch to deploy
+
 jobs:
-  filtersForGitHubActions:
-    name: Filters for GitHub Actions
-    runs-on: ubuntu-latest
+  deploy:
+    runs-on: ubuntu-18.04
     steps:
-    - uses: actions/checkout@master
-    - name: Filters for GitHub Actions
-      uses: actions/bin/filter@master
-      with:
-        args: branch master
-    - name: hugo-deploy-gh-org-pages
-      uses: StevenACoffman/hugo-deploy-gh-org-pages@v1.0.3
-      env:
-        DEPLOY_KEY_PRIVATE: ${{ secrets.HUGO }}
-        EMAIL: ${{ secrets.EMAIL }}
-        HUGO_VERSION: 0.68.3
+      - uses: actions/checkout@v2
+        with:
+          submodules: true  # Fetch Hugo themes (true OR recursive)
+          fetch-depth: 0    # Fetch all history for .GitInfo and .Lastmod
+
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v2
+        with:
+          hugo-version: '0.75.1'
+          # extended: true
+
+      - name: Build
+        run: hugo --minify
+
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.HUGO }}
+          publish_dir: ./public
