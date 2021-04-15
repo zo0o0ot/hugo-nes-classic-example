@@ -18,9 +18,6 @@ enableDNT = true
 simple = true
 disableInlineCSS = true
 
-[privacy.instagram]
-disabled = false
-simple = true
 
 [privacy.youtube]
 disabled = false
