@@ -15,4 +15,4 @@ jobs:
       env:
         DEPLOY_KEY_PRIVATE: ${{ secrets.HUGO }}
         EMAIL: ${{ secrets.EMAIL }}
-        HUGO_VERSION: 0.68.3
+        HUGO_VERSION: "0.68.3"
